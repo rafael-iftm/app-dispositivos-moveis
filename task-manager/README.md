@@ -24,7 +24,7 @@ Este é um aplicativo em **React Native** desenvolvido como parte de uma prova p
    - Possibilidade de organizar as tarefas por ordem de prioridade (maior para menor ou vice-versa).
 
 6. **Componentização**:
-   - Código modularizado com componentes reutilizáveis, como **TaskForm**, **TaskList** e **TaskItem**.
+   - Código modularizado com componentes reutilizáveis, como **TaskForm**, **TaskListItem**.
 
 ---
 
@@ -44,8 +44,7 @@ Este é um aplicativo em **React Native** desenvolvido como parte de uma prova p
 /task-manager
 ├── /components
 │   ├── TaskForm.jsx 
-│   ├── TaskList.jsx    
-│   └── TaskItem.jsx
+│   ├── TaskListItem.jsx    
 ├── App.js
 ├── /assets
 └── /styles

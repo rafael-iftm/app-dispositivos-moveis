@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Pressable } from 'react-native';
 
-const TaskForm = ({ onSubmit, taskToEdit, onCancel }) => {
+export default function TaskForm({ onSubmit, taskToEdit, onCancel }) {
   const [name, setName] = useState(taskToEdit?.name || '');
   const [description, setDescription] = useState(taskToEdit?.description || '');
   const [priority, setPriority] = useState(taskToEdit?.priority || 'Média');
 
   const handleSubmit = () => {
-    if (!name) return;
+    if (!name || !description) {
+      alert('Preencha todos os campos!');
+      return;
+    }
     onSubmit({ name, description, priority });
     setName('');
     setDescription('');
@@ -15,55 +18,50 @@ const TaskForm = ({ onSubmit, taskToEdit, onCancel }) => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={styles.form}>
       <TextInput
-        style={styles.input}
-        placeholder="Nome da tarefa"
+        placeholder="Nome da Tarefa"
         value={name}
         onChangeText={setName}
+        style={styles.input}
       />
       <TextInput
-        style={styles.input}
         placeholder="Descrição"
         value={description}
         onChangeText={setDescription}
+        style={styles.input}
       />
-      <View style={styles.priorityContainer}>
+      <View style={styles.radioGroup}>
         {['Alta', 'Média', 'Baixa'].map((level) => (
-          <Pressable
-            key={level}
-            style={[
-              styles.priorityButton,
-              priority === level && styles.selectedButton,
-            ]}
-            onPress={() => setPriority(level)}
-          >
-            <Text>{level}</Text>
+          <Pressable key={level} onPress={() => setPriority(level)} style={styles.radio}>
+            <Text style={[styles.radioText, priority === level && styles.selectedRadio]}>
+              {level}
+            </Text>
           </Pressable>
         ))}
       </View>
-      <Pressable style={styles.submitButton} onPress={handleSubmit}>
-        <Text style={styles.submitText}>Salvar</Text>
+      <Pressable onPress={handleSubmit} style={styles.button}>
+        <Text style={styles.buttonText}>
+          {taskToEdit ? 'Salvar Alterações' : 'Adicionar Tarefa'}
+        </Text>
       </Pressable>
-      {onCancel && (
-        <Pressable style={styles.cancelButton} onPress={onCancel}>
-          <Text style={styles.cancelText}>Cancelar</Text>
+      {taskToEdit && (
+        <Pressable onPress={onCancel} style={[styles.button, styles.cancelButton]}>
+          <Text style={styles.buttonText}>Cancelar</Text>
         </Pressable>
       )}
     </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: { padding: 20 },
-  input: { borderBottomWidth: 1, marginBottom: 10, padding: 8 },
-  priorityContainer: { flexDirection: 'row', marginBottom: 10 },
-  priorityButton: { padding: 10, borderWidth: 1, marginHorizontal: 5 },
-  selectedButton: { backgroundColor: '#ccc' },
-  submitButton: { backgroundColor: '#28a745', padding: 10, alignItems: 'center' },
-  submitText: { color: '#fff', fontWeight: 'bold' },
-  cancelButton: { backgroundColor: '#dc3545', padding: 10, alignItems: 'center', marginTop: 10 },
-  cancelText: { color: '#fff', fontWeight: 'bold' },
+  form: { marginBottom: 20 },
+  input: { borderWidth: 1, marginBottom: 10, padding: 8 },
+  radioGroup: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 10 },
+  radio: { padding: 10 },
+  radioText: { fontSize: 16 },
+  selectedRadio: { fontWeight: 'bold', textDecorationLine: 'underline' },
+  button: { backgroundColor: 'blue', padding: 10, alignItems: 'center' },
+  buttonText: { color: 'white', fontSize: 16 },
+  cancelButton: { backgroundColor: 'gray' },
 });
-
-export default TaskForm;

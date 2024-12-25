@@ -67,7 +67,7 @@ npm install -g expo-cli
 Clone este repositório em sua máquina:
 
 ```bash
-git clone <URL-DO-SEU-REPOSITORIO> cd task-manager
+git clone https://github.com/rafael-iftm/app-dispositivos-moveis cd task-manager
 ```
 
 ### 3. **Instalando Dependências**

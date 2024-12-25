@@ -1,13 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const ContactForm = ({ onSubmit, initialData }) => {
-  const [name, setName] = useState(initialData?.name || '');
-  const [phone, setPhone] = useState(initialData?.phone || '');
-  const [group, setGroup] = useState(initialData?.group || 'Família');
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [group, setGroup] = useState('Família');
+
+  useEffect(() => {
+    if (initialData) {
+      setName(initialData.name);
+      setPhone(initialData.phone);
+      setGroup(initialData.group);
+    }
+  }, [initialData]);
 
   const handleSubmit = () => {
-    onSubmit({ name, phone, group });
+    onSubmit({ 
+      ...initialData,
+      name, 
+      phone, 
+      group 
+    });
   };
 
   return (

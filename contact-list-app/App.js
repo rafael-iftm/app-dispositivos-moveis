@@ -31,17 +31,21 @@ const App = () => {
   const [editingContact, setEditingContact] = useState(null);
 
   const handleAddContact = (contact) => {
-    const newContact = {
-      ...contact,
-      id: contacts.length + 1,
-      groupImage:
-        contact.group === 'Família'
-          ? require('./assets/family.png')
-          : contact.group === 'Amigos'
-          ? require('./assets/friends.png')
-          : require('./assets/work.png'),
-    };
-    setContacts([...contacts, newContact]);
+    if (contact.id) {
+      handleEditContact(contact);
+    } else {
+      const newContact = {
+        ...contact,
+        id: contacts.length + 1,
+        groupImage:
+          contact.group === 'Família'
+            ? require('./assets/family.png')
+            : contact.group === 'Amigos'
+            ? require('./assets/friends.png')
+            : require('./assets/work.png'),
+      };
+      setContacts([...contacts, newContact]);
+    }
   };
 
   const handleDeleteContact = (id) => {
@@ -59,14 +63,10 @@ const App = () => {
 
   return (
     <View style={styles.container}>
-      {editingContact ? (
-        <ContactForm
-          initialData={editingContact}
-          onSubmit={handleEditContact}
-        />
-      ) : (
-        <ContactForm onSubmit={handleAddContact} />
-      )}
+      <ContactForm
+        initialData={editingContact}
+        onSubmit={handleAddContact}
+      />
       <ContactList
         contacts={contacts}
         onDelete={handleDeleteContact}

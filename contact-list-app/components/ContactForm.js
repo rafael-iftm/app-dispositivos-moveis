@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 const ContactForm = ({ onSubmit, initialData }) => {
   const [name, setName] = useState(initialData?.name || '');
@@ -25,7 +25,19 @@ const ContactForm = ({ onSubmit, initialData }) => {
         onChangeText={setPhone}
         keyboardType="phone-pad"
       />
-      <Button title="Salvar" onPress={handleSubmit} />
+      <View style={styles.groupContainer}>
+        <Text style={styles.label}>Grupo:</Text>
+        <TouchableOpacity onPress={() => setGroup('Família')} style={group === 'Família' ? styles.selectedGroup : styles.group}>
+          <Text>Família</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setGroup('Amigos')} style={group === 'Amigos' ? styles.selectedGroup : styles.group}>
+          <Text>Amigos</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => setGroup('Trabalho')} style={group === 'Trabalho' ? styles.selectedGroup : styles.group}>
+          <Text>Trabalho</Text>
+        </TouchableOpacity>
+      </View>
+      <Button title="Adicionar" onPress={handleSubmit} />
     </View>
   );
 };
@@ -40,6 +52,29 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginVertical: 5,
+  },
+  groupContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  label: {
+    marginRight: 10,
+  },
+  group: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    marginHorizontal: 5,
+  },
+  selectedGroup: {
+    padding: 10,
+    borderWidth: 1,
+    borderColor: '#007BFF',
+    borderRadius: 5,
+    backgroundColor: '#E6F0FF',
+    marginHorizontal: 5,
   },
 });
 

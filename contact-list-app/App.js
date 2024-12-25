@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import ContactList from './components/ContactList';
 import ContactForm from './components/ContactForm';
 

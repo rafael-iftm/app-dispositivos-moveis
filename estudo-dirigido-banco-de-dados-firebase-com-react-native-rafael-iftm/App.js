@@ -7,7 +7,7 @@ export default function App() {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-  const firestoreURL = 'https://firestore.googleapis.com/v1/projects/teste-6ef30/databases/(default)/documents/pessoas'
+  const firestoreURL = 'https://firestore.googleapis.com/v1/projects/app-trab-final-51cbf/databases/(default)/documents/usuarios'
 
   const fetchData = async () => {
     try {

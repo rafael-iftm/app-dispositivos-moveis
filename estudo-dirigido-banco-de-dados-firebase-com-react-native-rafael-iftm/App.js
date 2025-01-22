@@ -8,6 +8,9 @@ export default function App() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
   const [editingUser, setEditingUser] = useState(null);
+  const [endereco, setEndereco] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [observacoes, setObservacoes] = useState('');
   const firestoreURL = 'https://firestore.googleapis.com/v1/projects/app-trab-final-51cbf/databases/(default)/documents/usuarios'
 
   const fetchData = async () => {
@@ -44,20 +47,24 @@ export default function App() {
         fields: {
           nome: { stringValue: nome },
           email: { stringValue: email },
+          endereco: { stringValue: endereco },
+          telefone: { stringValue: telefone },
+          observacoes: { stringValue: observacoes },
         },
       };
-      const response = await fetch(firestoreURL,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(newData),
-        }
-      );
-
+      const response = await fetch(firestoreURL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newData),
+      });
+  
       if (response.ok) {
         setMessage('Usuário salvo com sucesso!');
         setNome('');
         setEmail('');
+        setEndereco('');
+        setTelefone('');
+        setObservacoes('');
       } else {
         setMessage('Erro ao salvar usuário.');
       }
@@ -65,7 +72,7 @@ export default function App() {
       setMessage('Erro ao salvar usuário.');
       console.error(err);
     }
-    fetchData()
+    fetchData();
   };
 
   const deleteUser = async (id) => {
@@ -129,6 +136,24 @@ export default function App() {
         value={email}
         onChangeText={setEmail}
       />
+      <TextInput
+        style={styles.input}
+        placeholder="Endereço"
+        value={endereco}
+        onChangeText={setEndereco}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Telefone"
+        value={telefone}
+        onChangeText={setTelefone}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Observações"
+        value={observacoes}
+        onChangeText={setObservacoes}
+      />
       <Button title="Salvar" onPress={saveData} />
       {message && <Text style={styles.message}>{message}</Text>}
 
@@ -156,6 +181,7 @@ export default function App() {
         usuarios.map((usuario) => (
             <View key={usuario.id} style={styles.userContainer}>
               <Text>{usuario.nome} - {usuario.email}</Text>
+              <Button title="Excluir" onPress={() => deleteUser(usuario.id)} />
               <Button title="Editar" onPress={() => {
                 setEditingUser(usuario);
                 setNome(usuario.nome);

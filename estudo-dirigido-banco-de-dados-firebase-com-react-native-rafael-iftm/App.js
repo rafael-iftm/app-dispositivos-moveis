@@ -49,11 +49,18 @@ function HomeScreen({ navigation }) {
           observacoes: { stringValue: observacoes },
         },
       };
-      const response = await fetch(firestoreURL, {
-        method: editingUser ? 'PATCH' : 'POST',
+  
+      const method = editingUser ? 'PATCH' : 'POST';
+      const endpoint = editingUser
+        ? `${firestoreURL}/${editingUser.name.split('/').pop()}`
+        : firestoreURL;
+  
+      const response = await fetch(endpoint, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newData),
       });
+  
       if (response.ok) {
         Alert.alert('Sucesso', editingUser ? 'Usuário atualizado!' : 'Usuário salvo!');
         fetchData();

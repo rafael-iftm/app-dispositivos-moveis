@@ -164,7 +164,7 @@ function HomeScreen({ navigation }) {
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.button, styles.deleteButton]}
-                onPress={() => deleteUser(item.id)}
+                onPress={() => deleteUser(item.name.split('/').pop())}
               >
                 <Text style={styles.buttonText}>Excluir</Text>
               </TouchableOpacity>

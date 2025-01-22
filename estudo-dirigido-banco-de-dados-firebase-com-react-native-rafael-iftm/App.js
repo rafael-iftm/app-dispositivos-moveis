@@ -67,6 +67,24 @@ export default function App() {
     fetchData()
   };
 
+  const deleteUser = async (id) => {
+    try {
+      const response = await fetch(`${firestoreURL}/${id}`, {
+        method: 'DELETE',
+      });
+      if (response.ok) {
+        setMessage('Usuário excluído com sucesso!');
+        fetchData();
+      } else {
+        setMessage('Erro ao excluir usuário.');
+      }
+    } catch (err) {
+      setMessage('Erro ao excluir usuário.');
+      console.error(err);
+    }
+  };
+  
+
   return (
     <View style={styles.container}>
     <Text style={styles.title}>Adicionar Usuário</Text>
@@ -89,9 +107,10 @@ export default function App() {
       {error && <Text style={styles.error}>{error}</Text>}
       {usuarios.length > 0 ? (
         usuarios.map((usuario) => (
-          <Text key={usuario.id}>
-            {usuario.nome} - {usuario.email}
-          </Text>
+          <View key={usuario.id} style={styles.userContainer}>
+            <Text>{usuario.nome} - {usuario.email}</Text>
+            <Button title="Excluir" onPress={() => deleteUser(usuario.id)} />
+          </View>
         ))
       ) : (
         <Text>Nenhum usuário encontrado.</Text>
@@ -106,6 +125,13 @@ const styles = StyleSheet.create({
     marginTop:40,
     flex: 1,
     padding: 16,
+  },
+
+  userContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
   },
   title: { fontSize: 18, fontWeight: 'bold', marginBottom: 16 },
   error: { color: 'red', marginBottom: 16 },
